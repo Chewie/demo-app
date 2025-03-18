@@ -23,6 +23,10 @@ jobs:
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
 
+      - name: Save image tag in an env var
+        run: |
+          echo "IMAGE_TAG=${{ env.REGISTRY}}/${{ env.IMAGE_NAME}}:${GITHUB_SHA::8}" >> "$GITHUB_ENV"
+
 
       # TEST
 
@@ -46,17 +50,13 @@ jobs:
           tags: |
             type=sha
 
-      - name: Save image tag in an env var
-        run: |
-          echo "IMAGE_TAG=${{ steps.meta.outputs.tags }}" >> "$GITHUB_ENV"
-
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ env.IMAGE_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
       
       - name: Generate artifact attestation
