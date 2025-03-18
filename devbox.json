@@ -14,7 +14,12 @@
         "init_hook": [],
         "scripts": {
             "test": [
-                "uv run pytest"
+                "uv run pytest -v -s"
+            ],
+            "k8s": [
+                "cd deploy",
+                "npm install",
+                "cdk8s synth"
             ]
         }
     }
