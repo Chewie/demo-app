@@ -7,11 +7,19 @@ authors = [
     { name = "Kévin Sztern", email = "contact@kevinsztern.fr" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "fastapi[standard]>=0.115.11",
+]
 
-[project.scripts]
-demo-app = "demo_app:main"
+
+[tool.poe.tasks]
+dev = "fastapi dev src/demo_app"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "poethepoet>=0.33.1",
+]
