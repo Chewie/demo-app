@@ -1,6 +1,7 @@
-name: Testing with devbox
+name: Run tests
 
-on: push
+on:
+  push:
 
 jobs:
   test:
@@ -13,6 +14,3 @@ jobs:
 
       - name: Run tests
         run: devbox run test
-
-      - name: Render manifests
-        run: devbox run k8s
