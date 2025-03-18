@@ -1,4 +1,5 @@
-name: Create and publish a Docker image
+name: Run CI
+run-name: Run CI
 
 on:
   push:
@@ -18,11 +19,11 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v4
-
       - name: Save image tag in an env var
         run: |
           echo "IMAGE_TAG=${{ env.REGISTRY}}/${{ env.IMAGE_NAME}}:${GITHUB_SHA::8}" >> "$GITHUB_ENV"
+
+      - uses: actions/checkout@v4
 
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
