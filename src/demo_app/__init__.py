@@ -4,5 +4,5 @@ app = FastAPI()
 
 
 @app.get("/")
-def index() -> str:
-    return "Hello, world!"
+def index() -> dict[str, str]:
+    return {"msg": "Hello, world!"}
