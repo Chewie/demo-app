@@ -9,11 +9,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  test:
-    uses: ./.github/workflows/test.yml
-
-  build:
-    needs: [test]
+  ci:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -23,6 +19,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.11.0
+
+
+      # TEST
+
+      - name: Run tests
+        run: devbox run test
+
+      # BUILD
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -55,23 +62,10 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
-  deploy:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install devbox
-        uses: jetify-com/devbox-install-action@v0.11.0
+      # DEPLOY
 
       - name: Render manifests
         run: devbox run k8s
-
-      - run: |
-          git config user.name "github-actions[bot]"
-          # See https://api.github.com/users/github-actions%5Bbot%5D
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
 
       - name: Checkout GitOps repository
         uses: actions/checkout@v4
@@ -81,8 +75,13 @@ jobs:
           ssh-key: ${{ secrets.GITOPS_REPO_KEY }}
 
       - run: |
+          git config user.name "github-actions[bot]"
+          # See https://api.github.com/users/github-actions%5Bbot%5D
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           rm -rf gitops-dev/deployment-targets/dev/*
           cp -r deploy/dist/dev/* gitops-dev/deployment-targets/dev/
+
           cd gitops-dev
           git add .
           git commit -m 'Update manifests for deployment target "dev"'
