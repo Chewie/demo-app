@@ -81,8 +81,8 @@ jobs:
           ssh-key: ${{ secrets.GITOPS_REPO_KEY }}
 
       - run: |
-          rm -rf gitops-repo/staging/*
-          cp -r deploy/dist/dev/* gitpos-repo/staging/
+          rm -rf gitops-dev/staging/*
+          cp -r deploy/dist/dev/* gitops-dev/staging/
           cd gitops-dev
           git add .
           git commit -m 'Update manifests for deployment target "dev"'
