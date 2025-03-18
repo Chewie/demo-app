@@ -22,8 +22,6 @@ jobs:
       id-token: write
       #
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
@@ -61,3 +59,23 @@ jobs:
     steps:
       - name: Render manifests
         run: devbox run k8s
+
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "${{ user.id }}+${{ user.login }}@users.noreply.github.com"
+
+
+      - name: Checkout GitOps repository
+        uses: actions/checkout@v4
+        with:
+          repository: abrique-atlas-sandbox/org-fabrique-ws-test
+          path: gitops-dev
+          ssh-key: ${{ secrets.GITOPS_REPO_KEY }}
+
+      - run: |
+          rm -rf gitops-repo/staging/*
+          cp -r deploy/dist/dev/* gitpos-repo/staging/
+          cd gitops-dev
+          git add .
+          git commit -m 'Update manifests for deployment target "dev"'
+          git push
