@@ -1,0 +1,17 @@
+[project]
+name = "demo-app"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Kévin Sztern", email = "contact@kevinsztern.fr" }
+]
+requires-python = ">=3.13"
+dependencies = []
+
+[project.scripts]
+demo-app = "demo_app:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
