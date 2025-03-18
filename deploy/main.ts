@@ -5,8 +5,7 @@ import * as k8s from "./imports/k8s";
 interface AtlasAppProps {
   name: string;
   host: string;
-  imageName: string;
-  imageTag: string;
+  image: string;
   replicas: number;
   port: number;
 }
@@ -38,7 +37,7 @@ export class AtlasApp extends Chart {
             containers: [
               {
                 name: "app",
-                image: `${props.imageName}:${props.imageTag}`,
+                image: props.image,
                 ports: [{ containerPort: props.port }],
               },
             ],
@@ -87,9 +86,10 @@ export class AtlasApp extends Chart {
 }
 
 if (!("IMAGE_TAG" in process.env)) {
-  console.warn("IMAGE_TAG env var is not defined, using latest");
+  console.warn("IMAGE_TAG env var is not defined, using fixme:latest");
+  process.exit(1)
 }
-const imageTag: string = process.env.IMAGE_TAG || "latest";
+const imageTag: string = process.env.IMAGE_TAG || "fixme:latest";
 
 const app = new App({
   yamlOutputType: YamlOutputType.FOLDER_PER_CHART_FILE_PER_RESOURCE,
@@ -100,8 +100,7 @@ new AtlasApp(app, "dev", {
   host: "foo.dev.example.com",
   replicas: 1,
   port: 8000,
-  imageName: "nginx",
-  imageTag: imageTag,
+  image: imageTag,
 });
 
 new AtlasApp(app, "prod", {
@@ -109,8 +108,7 @@ new AtlasApp(app, "prod", {
   host: "foo.prod.example.com",
   replicas: 3,
   port: 8000,
-  imageName: "nginx",
-  imageTag: imageTag,
+  image: imageTag,
 });
 
 app.synth();
