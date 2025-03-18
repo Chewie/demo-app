@@ -75,14 +75,13 @@ jobs:
           ssh-key: ${{ secrets.GITOPS_REPO_KEY }}
 
       - run: |
-          git config user.name "github-actions[bot]"
-          # See https://api.github.com/users/github-actions%5Bbot%5D
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           rm -rf gitops-dev/deployment-targets/dev/*
           cp -r deploy/dist/dev/* gitops-dev/deployment-targets/dev/
 
           cd gitops-dev
+          git config user.name "github-actions[bot]"
+          # See https://api.github.com/users/github-actions%5Bbot%5D
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m 'Update manifests for deployment target "dev"'
           git push
