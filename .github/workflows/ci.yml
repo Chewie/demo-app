@@ -24,7 +24,7 @@ jobs:
       - name: Save image tag in an env var
         id: compute-tag
         run: |
-          echo "IMAGE_TAG=foo:v42" >> "$GITHUB_ENV"
+          echo "FOO=foo:v42" >> "$GITHUB_ENV"
 
       # - name: Save image tag in an env var
       #   id: compute-tag
