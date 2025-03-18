@@ -20,8 +20,10 @@ jobs:
       packages: write
       attestations: write
       id-token: write
-      #
+
     steps:
+      - uses: actions/checkout@v4
+
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
@@ -69,7 +71,7 @@ jobs:
       - name: Checkout GitOps repository
         uses: actions/checkout@v4
         with:
-          repository: abrique-atlas-sandbox/org-fabrique-ws-test
+          repository: fabrique-atlas-sandbox/org-fabrique-ws-test
           path: gitops-dev
           ssh-key: ${{ secrets.GITOPS_REPO_KEY }}
 
