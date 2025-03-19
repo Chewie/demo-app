@@ -25,14 +25,14 @@ jobs:
           echo $GITHUB_ENV
           ls
           ls /home/runner/work/_temp/_runner_file_commands
-          echo "FOO1=BAR" | tee -a $GITHUB_ENV
+          echo "FOO1=BAR" | tee -a "$GITHUB_ENV"
 
       - uses: actions/checkout@v4
 
       - name: Test2
         run: |
           echo $GITHUB_ENV
-          echo "FOO2=BAR" >> $GITHUB_ENV
+          echo "FOO2=BAR" >> "$GITHUB_ENV"
 
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
