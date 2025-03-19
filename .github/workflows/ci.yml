@@ -21,8 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Save image tag in an env var
-        id: compute-tag
+      - name: Test
         run: |
           echo "FOO=BAR" >> $GITHUB_ENV
 
