@@ -19,11 +19,12 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v4
 
       - name: Test
         run: |
           echo "FOO=BAR" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v4
 
       # - name: Save image tag in an env var
       #   id: compute-tag
