@@ -23,10 +23,9 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: Save image tag in an env var
-        id: compute-tag
+      - name: Compute image tag
         run: |
-          echo "IMAGE_TAG=${{ env.REGISTRY}}/${{ env.IMAGE_NAME}}:${GITHUB_SHA::8}" >> "$GITHUB_ENV"
+          echo "SHORT_SHA=${GITHUB_SHA::8}" | tee -a "$GITHUB_ENV"
 
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
@@ -47,7 +46,11 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=sha
+            type=${{ env.SHORT_SHA }}
+            
+      - name: Save image tag in an env var
+        run: |
+          echo "IMAGE_TAG=${{ steps.meta.outputs.tags }}" | tee -a $GITHUB_ENV
 
       - name: Build and push Docker image
         id: push
