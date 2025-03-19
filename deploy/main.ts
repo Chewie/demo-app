@@ -73,6 +73,9 @@ export class AtlasApp extends Chart {
                   backend: {
                     service: {
                       name: service.name,
+                      port: {
+                        number: props.port,
+                      },
                     },
                   },
                 },
@@ -87,7 +90,7 @@ export class AtlasApp extends Chart {
 
 if (!("IMAGE_TAG" in process.env)) {
   console.warn("IMAGE_TAG env var is not defined, using fixme:latest");
-  process.exit(1)
+  process.exit(1);
 }
 const imageTag: string = process.env.IMAGE_TAG || "fixme:latest";
 
@@ -97,7 +100,7 @@ const app = new App({
 
 new AtlasApp(app, "dev", {
   name: "my-app",
-  host: "foo.dev.example.com",
+  host: "demo.org-fabrique-ws-test-dev.dev.atlas-sandbox.fabrique.social.gouv.fr",
   replicas: 1,
   port: 8000,
   image: imageTag,
@@ -105,7 +108,7 @@ new AtlasApp(app, "dev", {
 
 new AtlasApp(app, "prod", {
   name: "my-app",
-  host: "foo.prod.example.com",
+  host: "demo.org-fabrique-ws-test-prod.dev.atlas-sandbox.fabrique.social.gouv.fr",
   replicas: 3,
   port: 8000,
   image: imageTag,
