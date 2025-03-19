@@ -23,8 +23,9 @@ jobs:
       - name: Test1
         run: |
           echo $GITHUB_ENV
-          mkdir -p /home/runner/work/_temp/_runner_file_commands
-          echo "FOO1=BAR" >> $GITHUB_ENV
+          ls
+          ls /home/runner/work/_temp/_runner_file_commands
+          echo "FOO1=BAR" | tee -a $GITHUB_ENV
 
       - uses: actions/checkout@v4
 
