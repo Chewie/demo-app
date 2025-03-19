@@ -20,21 +20,23 @@ jobs:
 
     steps:
 
+      - name: Test1
+        run: |
+          echo $GITHUB_ENV
+          echo "FOO1=BAR" >> $GITHUB_ENV
+
       - uses: actions/checkout@v4
 
-      - name: Test
+      - name: Test2
         run: |
-          echo "FOO=BAR" >> $GITHUB_ENV
+          echo $GITHUB_ENV
+          echo "FOO2=BAR" >> $GITHUB_ENV
 
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
 
-      # TEST
-
       - name: Run tests
         run: devbox run test
-
-      # BUILD
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -66,8 +68,6 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
-
-      # DEPLOY
 
       - name: Render manifests
         run: devbox run k8s
