@@ -49,6 +49,9 @@ export class AtlasApp extends Chart {
     const service = new k8s.KubeService(this, "service", {
       metadata: {
         name: props.name,
+        annotations: {
+          "cert-manager.io/cluster-issuer": "letsencrypt",
+        },
       },
       spec: {
         type: "ClusterIP",
