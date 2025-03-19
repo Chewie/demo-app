@@ -46,7 +46,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=${{ env.SHORT_SHA }}
+            type=raw,value=${{ env.SHORT_SHA }}
             
       - name: Save image tag in an env var
         run: |
