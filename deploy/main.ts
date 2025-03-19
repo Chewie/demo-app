@@ -62,6 +62,7 @@ export class AtlasApp extends Chart {
         name: props.name,
       },
       spec: {
+        ingressClassName: "public",
         rules: [
           {
             host: props.host,
