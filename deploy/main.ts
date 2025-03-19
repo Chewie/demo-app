@@ -87,6 +87,12 @@ export class AtlasApp extends Chart {
             },
           },
         ],
+        tls: [
+          {
+            hosts: [props.host],
+            secretName: "demo-tls",
+          },
+        ],
       },
     });
   }
